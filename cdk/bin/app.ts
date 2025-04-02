@@ -4,7 +4,7 @@ import * as cdk from 'aws-cdk-lib';
 import { RecordKeepingStack } from '../lib/record-keeping-stack';
 
 const app = new cdk.App();
-new RecordKeepingStack(app, 'ModernizedRecordKeepingStack', {
+new RecordKeepingStack(app, 'ModernizedRecordKeepingStackV2', {
   env: { account: '360477615759', region: 'us-east-1' },
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,

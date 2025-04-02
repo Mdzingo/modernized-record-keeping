@@ -36,7 +36,7 @@ export class RecordKeepingStack extends cdk.Stack {
     });
 
     // Create a PostgreSQL RDS instance
-    const dbInstance = new rds.DatabaseInstance(this, 'RecordKeepingDatabase', {
+    const dbInstance = new rds.DatabaseInstance(this, 'RecordKeepingDatabaseV2', {
       engine: rds.DatabaseInstanceEngine.postgres({
         version: rds.PostgresEngineVersion.VER_14,
       }),
@@ -65,46 +65,46 @@ export class RecordKeepingStack extends cdk.Stack {
       'Allow Lambda to connect to RDS'
     );
 
-    // Create a Lambda function from Docker image
-    const lambdaFunction = new lambda.DockerImageFunction(this, 'RecordKeepingLambda', {
-      code: lambda.DockerImageCode.fromImageAsset(path.resolve(__dirname, '../../'), {
-        exclude: ['cdk.out', 'cdk/cdk.out', '.git', 'node_modules']
-      }),
-      memorySize: 1024,
-      timeout: cdk.Duration.seconds(30),
-      vpc,
-      vpcSubnets: {
-        subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
-      },
-      environment: {
-        POSTGRES_SERVER: dbInstance.dbInstanceEndpointAddress,
-        POSTGRES_PORT: dbInstance.dbInstanceEndpointPort,
-        POSTGRES_DB: 'recordsdb',
-        POSTGRES_USER: 'postgres',
-        POSTGRES_SECRET_ARN: databaseCredentials.secretArn,
-      },
-    });
+    // // Create a Lambda function from Docker image
+    // const lambdaFunction = new lambda.DockerImageFunction(this, 'RecordKeepingLambda', {
+    //   code: lambda.DockerImageCode.fromImageAsset(path.resolve(__dirname, '../../'), {
+    //     exclude: ['cdk.out', 'cdk/cdk.out', '.git', 'node_modules']
+    //   }),
+    //   memorySize: 1024,
+    //   timeout: cdk.Duration.seconds(30),
+    //   vpc,
+    //   vpcSubnets: {
+    //     subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+    //   },
+    //   environment: {
+    //     POSTGRES_SERVER: dbInstance.dbInstanceEndpointAddress,
+    //     POSTGRES_PORT: dbInstance.dbInstanceEndpointPort,
+    //     POSTGRES_DB: 'recordsdb',
+    //     POSTGRES_USER: 'postgres',
+    //     POSTGRES_SECRET_ARN: databaseCredentials.secretArn,
+    //   },
+    // });
 
     // Grant the Lambda function permission to read the secret
-    databaseCredentials.grantRead(lambdaFunction);
+    // databaseCredentials.grantRead(lambdaFunction);
 
-    // Create an API Gateway REST API
-    const api = new apigateway.LambdaRestApi(this, 'RecordKeepingApi', {
-      handler: lambdaFunction,
-      proxy: true,
-      deployOptions: {
-        stageName: 'prod',
-        metricsEnabled: true,
-        loggingLevel: apigateway.MethodLoggingLevel.INFO,
-        dataTraceEnabled: true,
-      },
-    });
+    // // Create an API Gateway REST API
+    // const api = new apigateway.LambdaRestApi(this, 'RecordKeepingApi', {
+    //   handler: lambdaFunction,
+    //   proxy: true,
+    //   deployOptions: {
+    //     stageName: 'prod',
+    //     metricsEnabled: true,
+    //     loggingLevel: apigateway.MethodLoggingLevel.INFO,
+    //     dataTraceEnabled: true,
+    //   },
+    // });
 
-    // Output the API Gateway URL
-    new cdk.CfnOutput(this, 'ApiUrl', {
-      value: api.url,
-      description: 'URL of the API Gateway endpoint',
-    });
+    // // Output the API Gateway URL
+    // new cdk.CfnOutput(this, 'ApiUrl', {
+    //   value: api.url,
+    //   description: 'URL of the API Gateway endpoint',
+    // });
 
     // Output the database endpoint
     new cdk.CfnOutput(this, 'DatabaseEndpoint', {
