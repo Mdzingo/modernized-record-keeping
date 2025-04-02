@@ -1,0 +1,28 @@
+# Exclude CDK output directory to prevent circular dependencies
+cdk.out/
+**/cdk.out/
+
+# Exclude git directory
+.git/
+**/.git/
+
+# Exclude node modules
+node_modules/
+**/node_modules/
+
+# Exclude CDK context and other CDK files
+cdk.context.json
+**/cdk.context.json
+cdk.json
+**/cdk.json
+
+# Exclude TypeScript build artifacts
+**/*.js.map
+**/*.d.ts
+
+# Exclude common development files
+.vscode/
+.idea/
+**/__pycache__/
+**/*.pyc
+**/.DS_Store
