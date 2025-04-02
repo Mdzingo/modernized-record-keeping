@@ -18,15 +18,15 @@ export class RecordKeepingStack extends cdk.Stack {
     });
 
     // Create a security group for the RDS instance
-    const dbSecurityGroup = new ec2.SecurityGroup(this, 'DatabaseSecurityGroup', {
+    const dbSecurityGroup = new ec2.SecurityGroup(this, 'DatabaseSecurityGroupV2', {
       vpc,
       description: 'Allow database connections',
       allowAllOutbound: true,
     });
 
     // Create a secret for database credentials
-    const databaseCredentials = new secretsmanager.Secret(this, 'DBCredentials', {
-      secretName: 'modernized-record-keeping/db-credentials',
+    const databaseCredentials = new secretsmanager.Secret(this, 'DBCredentialsV2', {
+      secretName: 'modernized-record-keeping/db-credentials-v2',
       generateSecretString: {
         secretStringTemplate: JSON.stringify({ username: 'postgres' }),
         generateStringKey: 'password',
