@@ -1,13 +1,13 @@
 FROM public.ecr.aws/lambda/python:3.12
 
 # Copy requirements file
-COPY pyproject.toml poetry.lock ${LAMBDA_TASK_ROOT}/
+COPY pyproject.toml poetry.lock README.md ${LAMBDA_TASK_ROOT}/
 
 # Install the specified packages
 RUN pip install --upgrade pip && \
     pip install poetry && \
     poetry config virtualenvs.create false && \
-    poetry install --no-dev --no-interaction --no-ansi
+    poetry install --no-interaction --no-ansi --no-root
 
 # Copy function code
 COPY app/ ${LAMBDA_TASK_ROOT}/app/

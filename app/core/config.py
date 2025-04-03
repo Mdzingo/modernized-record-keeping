@@ -29,9 +29,10 @@ class Settings:
     POSTGRES_USER: str = os.getenv("POSTGRES_USER", "postgres")
     POSTGRES_DB: str = os.getenv("POSTGRES_DB", "recordsdb")
     POSTGRES_PORT: str = os.getenv("POSTGRES_PORT", "5432")
-    secret_arn = os.environ['POSTGRES_SECRET_ARN']
-    db_credentials = get_secret(secret_arn)
-    POSTGRES_PASSWORD:str  = db_credentials['password']
+    POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD", "postgres")
+    # secret_arn = os.environ['POSTGRES_SECRET_ARN']
+    # db_credentials = get_secret(secret_arn)
+    # POSTGRES_PASSWORD:str = db_credentials['password']
     
 
     
