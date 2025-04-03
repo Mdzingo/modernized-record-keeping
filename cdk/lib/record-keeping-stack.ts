@@ -88,23 +88,23 @@ export class RecordKeepingStack extends cdk.Stack {
     // Grant the Lambda function permission to read the secret
     databaseCredentials.grantRead(lambdaFunction);
 
-    // Create an API Gateway REST API
-    const api = new apigateway.LambdaRestApi(this, 'RecordKeepingApi', {
-      handler: lambdaFunction,
-      proxy: true,
-      deployOptions: {
-        stageName: 'prod',
-        metricsEnabled: true,
-        loggingLevel: apigateway.MethodLoggingLevel.INFO,
-        dataTraceEnabled: true,
-      },
-    });
+    // // Create an API Gateway REST API
+    // const api = new apigateway.LambdaRestApi(this, 'RecordKeepingApi', {
+    //   handler: lambdaFunction,
+    //   proxy: true,
+    //   deployOptions: {
+    //     stageName: 'prod',
+    //     // metricsEnabled: true,
+    //     // loggingLevel: apigateway.MethodLoggingLevel.INFO,
+    //     dataTraceEnabled: true,
+    //   },
+    // });
 
-    // Output the API Gateway URL
-    new cdk.CfnOutput(this, 'ApiUrl', {
-      value: api.url,
-      description: 'URL of the API Gateway endpoint',
-    });
+    // // Output the API Gateway URL
+    // new cdk.CfnOutput(this, 'ApiUrl', {
+    //   value: api.url,
+    //   description: 'URL of the API Gateway endpoint',
+    // });
 
     // Output the database endpoint
     new cdk.CfnOutput(this, 'DatabaseEndpoint', {
